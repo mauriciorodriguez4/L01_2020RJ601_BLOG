@@ -71,7 +71,7 @@ namespace L01_2020RJ601.Controllers
 
                 _blogContext.Entry(usuarioA).State = EntityState.Modified;
                 _blogContext.SaveChanges();
-                return Ok(usuarioA);
+                return Ok(usuarioActualizado);
             }
             catch (Exception ex)
             {
@@ -90,7 +90,9 @@ namespace L01_2020RJ601.Controllers
                 usuarios? usuarioD = (from e in _blogContext.usuarios where e.usuarioId == id select e).FirstOrDefault();
 
                 if (usuarioD == null) return NotFound();
-
+                
+                _blogContext.usuarios.Attach(usuarioD);
+                _blogContext.usuarios.Remove(usuarioD);                
                 _blogContext.SaveChanges();
                 return Ok(usuarioD);
             }

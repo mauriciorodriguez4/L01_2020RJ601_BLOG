@@ -72,7 +72,7 @@ namespace L01_2020RJ601.Controllers
 
                 _blogContext.Entry(publicacionA).State = EntityState.Modified;
                 _blogContext.SaveChanges();
-                return Ok(publicacionA);
+                return Ok(actualizarPubliacion);
             }
             catch (Exception ex)
             {
@@ -91,7 +91,9 @@ namespace L01_2020RJ601.Controllers
                 publicaciones? publicacionD = (from e in _blogContext.publicaciones where e.publicacionId == id select e).FirstOrDefault();
 
                 if (publicacionD == null) return NotFound();
-
+                
+                _blogContext.publicaciones.Attach(publicacionD);
+                _blogContext.publicaciones.Remove(publicacionD);
                 _blogContext.SaveChanges();
                 return Ok(publicacionD);
             }

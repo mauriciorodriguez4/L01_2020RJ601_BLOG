@@ -72,7 +72,7 @@ namespace L01_2020RJ601.Controllers
 
                 _blogContext.Entry(comentariosA).State = EntityState.Modified;
                 _blogContext.SaveChanges();
-                return Ok(comentariosA);
+                return Ok(actualizarComentario);
             }
             catch (Exception ex)
             {
@@ -91,7 +91,9 @@ namespace L01_2020RJ601.Controllers
                 comentarios? comentarioD = (from e in _blogContext.comentarios where e.cometarioId == id select e).FirstOrDefault();
 
                 if (comentarioD == null) return NotFound();
-
+                
+                _blogContext.comentarios.Attach(comentarioD);
+                _blogContext.comentarios.Remove(comentarioD);
                 _blogContext.SaveChanges();
                 return Ok(comentarioD);
             }
